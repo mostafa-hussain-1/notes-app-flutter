@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
 _searchController.dispose(); //for cleaning history
     super.dispose();
 }
+//controllers
+TextEditingController searchController =TextEditingController();
 
 
   int currentIndex =0;
@@ -84,7 +86,8 @@ _searchController.dispose(); //for cleaning history
 
             ),
             
-                                          //controller...
+          controller: searchController,
+          keyboardType: TextInputType.text, //controller...
 
           )
                                              //other notes (after search box )
@@ -101,6 +104,7 @@ _searchController.dispose(); //for cleaning history
           currentIndex =index;
         });
       },
+      //selectedItemColor: ,      for color
         items:
         [
           BottomNavigationBarItem(
