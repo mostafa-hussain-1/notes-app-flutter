@@ -31,7 +31,7 @@ TextEditingController searchController =TextEditingController();
 
   final List<String> _titles = [
   'Notes',
-  'Deleted',
+  'Trash',
   'Archived',
 ];
 
@@ -51,7 +51,6 @@ TextEditingController searchController =TextEditingController();
       (
         title:
         Text(_titles[currentIndex],style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
-        backgroundColor: Color(0xFF121212),
         actions:
          [
           Padding(padding: EdgeInsets.all(12),
@@ -113,7 +112,7 @@ TextEditingController searchController =TextEditingController();
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.delete_forever_rounded),
-        label: 'Deleted',
+        label: 'Trash',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.archive_rounded),
@@ -122,6 +121,15 @@ TextEditingController searchController =TextEditingController();
         ],
         
       ),
+      floatingActionButton: 
+      currentIndex==0 ?FloatingActionButton
+      (onPressed:()
+      {
+        //add
+      },
+      child: Icon(Icons.add),
+      ) :null
+      
 
       
       
