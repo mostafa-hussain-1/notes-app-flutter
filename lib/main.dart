@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'themes/app_theme.dart';
-import 'screens/layouts/homeScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,8 +20,6 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       title: 'Notes APP',
-
-      home: const HomePage(),
 
       theme: AppThemes.getLightTheme(currentPrimaryColor),
       darkTheme: AppThemes.getDarkTheme(currentPrimaryColor),
