@@ -12,11 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   
   final TextEditingController _searchController = TextEditingController();  //vars for controll
-
 
   @override
   void dispose() {
@@ -42,7 +39,6 @@ TextEditingController searchController =TextEditingController();
     ArchivedModel(),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return  Scaffold
@@ -64,7 +60,6 @@ TextEditingController searchController =TextEditingController();
             )
          ],
       ),
-
       body:Padding
       (padding: EdgeInsets.all(20),
       child: Column
@@ -75,22 +70,17 @@ TextEditingController searchController =TextEditingController();
           (
             decoration: InputDecoration
             (
-             
               border: OutlineInputBorder
               (
                 borderRadius: BorderRadius.circular(25)
               ),
               hintText: 'Search here',
               prefixIcon: Icon(Icons.search_outlined),
-
             ),
-            
           controller: searchController,
           keyboardType: TextInputType.text, //controller...
-
           )
-                                             //other notes (after search box )
-
+          //other notes (after search box )
         ],
       ),
       ),
@@ -100,13 +90,13 @@ TextEditingController searchController =TextEditingController();
       {
         setState(() 
         {
-          currentIndex =index;
+        currentIndex =index;
         });
       },
       //selectedItemColor: ,      for color
         items:
         [
-          BottomNavigationBarItem(
+        BottomNavigationBarItem(
         icon: Icon(Icons.note),
         label: 'Notes',
       ),
@@ -125,10 +115,18 @@ TextEditingController searchController =TextEditingController();
       currentIndex==0 ?FloatingActionButton
       (onPressed:()
       {
-        //add
+      //add
       },
       child: Icon(Icons.add),
-      ) :null
+      ) :
+      currentIndex ==1 ?FloatingActionButton
+      (
+        onPressed: ()
+        {
+        //delete all deleted notes fun
+        },
+        child: Icon(Icons.delete_outline_outlined),
+      ):null
     );
   }
 }
