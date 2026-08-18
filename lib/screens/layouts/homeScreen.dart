@@ -125,10 +125,20 @@ TextEditingController searchController =TextEditingController();
       currentIndex==0 ?FloatingActionButton
       (onPressed:()
       {
-        //add
+        //add note fun
       },
       child: Icon(Icons.add),
-      ) :null
+      ) :
+      currentIndex ==1 ?FloatingActionButton
+      (
+        onPressed: ()
+        {
+          //delete all deleted notes fun
+        },
+        child: Icon(Icons.delete_outline_outlined),
+      ):null
+      
+    
       
 
       
