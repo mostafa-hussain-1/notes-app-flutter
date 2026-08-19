@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/states/theme_cubit.dart';
 
 class ThemeSettings extends StatefulWidget {
-final ThemeMode themeMode;
-final Color primaryColor;
-final List<Color> colors;
-
-final Function(ThemeMode) changeTheme;
-final Function(Color) changeColor;
 
 const ThemeSettings({
 super.key,
-required this.themeMode,
-required this.primaryColor,
-required this.colors,
-required this.changeTheme,
-required this.changeColor,
 });
 
 @override
@@ -41,31 +32,28 @@ content: SingleChildScrollView(
                 RadioListTile<ThemeMode>(  
                   title: const Text("Light"),  
                   value: ThemeMode.light,  
-                  groupValue: widget.themeMode,  
+                  groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
-                    widget.changeTheme(value!);  
-                    setDialogState(() {});  
+                    context.read<ThemeCubit>().changeTheme(value!);
                   },  
                 ),  
 
                 RadioListTile<ThemeMode>(  
                   title: const Text("Dark"),  
                   value: ThemeMode.dark,  
-                  groupValue: widget.themeMode,  
+                  groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
-                    widget.changeTheme(value!);  
-                    setDialogState(() {});  
+                    context.read<ThemeCubit>().changeTheme(value!);
                   },  
-                ),  
+                ),
 
                 RadioListTile<ThemeMode>(  
                   title: const Text("System"),  
                   value: ThemeMode.system,  
-                  groupValue: widget.themeMode,  
+                  groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
-                    widget.changeTheme(value!);  
-                    setDialogState(() {});  
-                  },  
+                    context.read<ThemeCubit>().changeTheme(value!);
+                  },   
                 ),  
 
                 const Divider(),  
@@ -75,27 +63,25 @@ content: SingleChildScrollView(
                 const SizedBox(height: 10),  
 
                 ColorPicker(  
-                  color: widget.primaryColor,  
+                  color: context.read<ThemeCubit>().primaryColor,  
                   onColorChanged: (color) {  
-                    widget.changeColor(color);  
-                    setDialogState(() {});  
+                    context.read<ThemeCubit>().changeColor(color);    
                   },  
                 ),  
 
                 const SizedBox(height: 10),  
 
-                if (widget.colors.isNotEmpty) ...[  
+                if (context.read<ThemeCubit>().recentColors.isNotEmpty) ...[  
                   const Text("Recent Colors:"),  
 
                   const SizedBox(height: 8),  
 
                   Wrap(  
                     spacing: 8,  
-                    children: widget.colors.map((color) {  
+                    children: context.read<ThemeCubit>().recentColors.map((color) {  
                       return GestureDetector(  
                         onTap: () {  
-                          widget.changeColor(color);  
-                          setDialogState(() {});  
+                          context.read<ThemeCubit>().changeColor(color);
                         },  
 
                         child: Container(  
