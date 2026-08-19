@@ -3,7 +3,6 @@ import 'package:notes_app/modules/archived_module.dart';
 import 'package:notes_app/modules/deleted_module.dart';
 import 'package:notes_app/modules/note_module.dart';
 
-
 String searchQuery = '';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +10,6 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
-
 }
 
 class _HomePageState extends State<HomePage> {
@@ -25,10 +23,7 @@ _searchController.dispose(); //for cleaning history
 }
 //controllers
 TextEditingController searchController = TextEditingController();
-
-
   int currentIndex =0;
-
   final List<String> _titles = [
   'Notes',
   'Trash',
@@ -81,7 +76,7 @@ TextEditingController searchController = TextEditingController();
               prefixIcon: Icon(Icons.search_outlined),
             ),
           controller: searchController,
-          keyboardType: TextInputType.text, //controller...
+          keyboardType: TextInputType.text,
           ),
           screens[currentIndex],
         ],
@@ -100,7 +95,7 @@ TextEditingController searchController = TextEditingController();
         items:
         [
         BottomNavigationBarItem(
-        icon: Icon(Icons.note),
+        icon: Icon(Icons.book),
         label: 'Notes',
       ),
       BottomNavigationBarItem(
@@ -112,7 +107,6 @@ TextEditingController searchController = TextEditingController();
         label: 'Archived',
       )
         ],
-        
       ),
       floatingActionButton: 
       currentIndex==0 ?FloatingActionButton

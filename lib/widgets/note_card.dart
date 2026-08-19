@@ -24,7 +24,7 @@ class NoteCard extends StatelessWidget {
         child: Dismissible(
           key: ValueKey(note.title + note.content),
           direction: DismissDirection.horizontal,
-        
+          
           background: _buildActionBackground(
             alignment: Alignment.centerLeft,
             color: Colors.red.shade400,

@@ -86,17 +86,17 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
         final shouldLeave = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('تجاهل التغييرات؟'),
-            content: const Text('هل تريد الخروج وتجاهل التعديلات؟'),
+            title: const Text('Ignore Changes?'),
+            content: const Text('Exit and Discard the Changes?'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('إلغاء'),
+                child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
                 child: Text(
-                  'خروج',
+                  'Exit',
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ),
@@ -136,7 +136,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                 if (title.isEmpty && content.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('لا يمكن حفظ ملاحظة فارغة'),
+                      content: Text("Can't be Empty"),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -153,7 +153,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   } else if (words.length == 1) {
                     title = words[0];
                   } else {
-                    title = 'بدون عنوان';
+                    title = 'No Title';
                   }
                 }
 
