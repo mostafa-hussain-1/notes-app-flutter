@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:notes_app/models/notes_model.dart';
+import 'package:notes_app/states/notes_cubit.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
   final String? initialTitle;
@@ -156,6 +159,9 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                     title = 'No Title';
                   }
                 }
+                NoteModel newNote = NoteModel(title: title, content: content);
+                
+                context.read<NotesCubit>().addNote(newNote);
 
                 Navigator.pop(context, {
                   'title': title,

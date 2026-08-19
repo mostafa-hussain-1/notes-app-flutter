@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/states/notes_states.dart';
+import 'package:notes_app/functions/search.dart';
 
 
 class NotesCubit extends Cubit<NotesState> {
@@ -19,23 +20,23 @@ class NotesCubit extends Cubit<NotesState> {
     NoteModel note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'mostafa';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'elsayed';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'bigoo';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'sama';
     note = NoteModel(title: title, content: content);
     archiveNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'tifa';
     note = NoteModel(title: title, content: content);
     archiveNotes.add(note);
     content = 'erk;gjbrg';
@@ -46,8 +47,20 @@ class NotesCubit extends Cubit<NotesState> {
     title = 'erk';
     note = NoteModel(title: title, content: content);
     trashNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'erk';
+    content = 'al';
+    title = 'you';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'me';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'she';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'he';
     note = NoteModel(title: title, content: content);
     trashNotes.add(note);
     

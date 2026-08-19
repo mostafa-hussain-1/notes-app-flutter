@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     //currentPrimaryColor = context.watch<ThemeProvider>().primaryColor;
     currentPrimaryColor = Color.fromARGB(255, 50, 20, 30);
     //final currentThemeMode = context.watch<ThemeProvider>().themeMode;
+
     return BlocProvider(
       create: (context) => NotesCubit()..fetchAllNotes(),
       child:MaterialApp(
@@ -27,6 +28,6 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         home: const HomePage(),
       ),
-    ); 
+    );
   }
 }

@@ -26,7 +26,7 @@ class _DeleteModuleState extends State<DeleteModule> {
             return const Center(child: CircularProgressIndicator());
           } 
           
-          else if (state is NotesSuccess) {
+         else if (state is NotesSuccess) {
             List<NoteModel> displayList = searchNotes(state.trashNotes, widget.currentSearchText);
             
             return DynamicNotesList(notes: displayList, type: 'trash');
@@ -35,10 +35,10 @@ class _DeleteModuleState extends State<DeleteModule> {
           else if (state is NotesError) {
             return Center(child: Text(state.errorMessage));
           }
-
+          
           return const Center(child: Text('There is nothing here!'));
         },
-      )
+      ),
     );
   }
 }
