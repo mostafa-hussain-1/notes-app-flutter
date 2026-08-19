@@ -10,7 +10,7 @@ class DynamicNotesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (notes.isEmpty) {
-      return const Center(child: Text('There is Nothing'));
+      return const Center(child: Text('There is nothing here!'));
     }
 
     return ListView.builder(

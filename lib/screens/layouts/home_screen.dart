@@ -78,16 +78,12 @@ TextEditingController searchController = TextEditingController();
               hintText: 'Search here',
               prefixIcon: Icon(Icons.search_outlined),
             ),
-<<<<<<< HEAD
-          controller: searchController,
-          keyboardType: TextInputType.text,
-=======
-          onChanged: (value)
-          {
-            context.read<NotesCubit>().searchInNotes(value);
-          },
-          keyboardType: TextInputType.text, //controller...
->>>>>>> main
+            controller: searchController,
+            onChanged: (value)
+            {
+              context.read<NotesCubit>().searchInNotes(value);
+            },
+            keyboardType: TextInputType.text, 
           ),
           screens[currentIndex],
         ],

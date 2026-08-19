@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/states/notes_states.dart';
-
 import 'package:notes_app/functions/search.dart';
 
 
@@ -93,9 +92,9 @@ class NotesCubit extends Cubit<NotesState> {
     activeNotes.add(note);
     
     emit(NotesSuccess(
-      activeNotes: List.from(activeNotes), 
-      archiveNotes: List.from(archiveNotes), 
-      trashNotes: List.from(trashNotes)
+      activeNotes: activeNotes, 
+      archiveNotes: archiveNotes, 
+      trashNotes: trashNotes
     ));
   }
 
@@ -108,13 +107,12 @@ class NotesCubit extends Cubit<NotesState> {
     trashNotes.clear();
 
     emit(NotesSuccess
-    (
-    activeNotes: List.from(activeNotes),
-    archiveNotes: List.from(archiveNotes),
-    trashNotes: List.from(trashNotes),
+      (
+      activeNotes: activeNotes,
+      archiveNotes: archiveNotes,
+      trashNotes: trashNotes,
       )
-      );
-
+    );
   }
 
 
