@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/notes_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/states/notes_cubit.dart';
 
 class NoteCard extends StatelessWidget {
   final NoteModel note;
-  final VoidCallback? onArchive;
-  final VoidCallback? onDelete;
+  final String type;
   final VoidCallback? onTap;
 
   const NoteCard({
     super.key,
     required this.note,
-    this.onArchive,
-    this.onDelete,
+    required this.type,
     this.onTap,
   });
 
@@ -23,27 +23,50 @@ class NoteCard extends StatelessWidget {
         height: 90,
         child: Dismissible(
           key: ValueKey(note.title + note.content),
-          direction: DismissDirection.horizontal,
+          direction: type == 'trash'? 
+          DismissDirection.startToEnd : DismissDirection.horizontal,
           
           background: _buildActionBackground(
             alignment: Alignment.centerLeft,
-            color: Colors.red.shade400,
-            icon: Icons.delete_outlined,
-            label: 'Trash',
+            color: type == 'trash'? 
+            Colors.green.shade400 : Colors.red.shade400,
+            icon: type == 'trash'? 
+            Icons.restore : Icons.delete_outlined,
+            label: type == 'trash'? 
+            'Restore' : 'Trash',
           ),
           
           secondaryBackground: _buildActionBackground(
             alignment: Alignment.centerRight,
-            color: Colors.blueGrey.shade400,
-            icon: Icons.archive_outlined,
-            label: 'Archive',
+            color: type == 'active'?
+            Colors.blueGrey.shade400 : Colors.green.shade400,
+            icon: type == 'active'?
+            Icons.archive_outlined : Icons.restore,
+            label: type == 'active'?
+            'Archive' : 'Restore',
           ),
         
           confirmDismiss: (direction) async {
-            if (direction == DismissDirection.startToEnd) {
-              onDelete?.call();
-            } else if (direction == DismissDirection.endToStart) {
-              onArchive?.call();
+            if (type == 'active') {
+              if (direction == DismissDirection.startToEnd) {
+                context.read<NotesCubit>().trashNote(note, type);
+              } else if (direction == DismissDirection.endToStart) {
+                context.read<NotesCubit>().archiveNote(note);
+              }
+            }
+          
+            else if (type == 'archive') {
+              if (direction == DismissDirection.startToEnd) {
+                context.read<NotesCubit>().trashNote(note, type);
+              } else if (direction == DismissDirection.endToStart) {
+                context.read<NotesCubit>().restoreNote(note, type);
+              }
+            }
+          
+            else if (type == 'trash') {
+              if (direction == DismissDirection.startToEnd) {
+                context.read<NotesCubit>().restoreNote(note, type);
+              }
             }
             return false;
           },
@@ -101,7 +124,7 @@ class NoteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
