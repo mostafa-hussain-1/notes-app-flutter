@@ -1,4 +1,4 @@
-import 'package:notes_app/widgets/note_card.dart';
+import 'package:notes_app/models/notes_model.dart';
 
 List<NoteModel> searchNotes(List<NoteModel> notes, String searchText) {
   final search = searchText.toLowerCase().trim();

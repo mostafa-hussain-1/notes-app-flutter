@@ -26,7 +26,18 @@ class AppThemes {
       ),
 
       iconTheme: const IconThemeData(
-        color: Colors.black87, 
+        color: Colors.black, 
+      ),
+
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          iconColor: MaterialStateProperty.all(Colors.black),
+        ),
+      ),
+
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.black,
+        selectionColor: Colors.blue, 
       ),
 
       textTheme: const TextTheme(
@@ -75,6 +86,17 @@ class AppThemes {
 
       iconTheme: const IconThemeData(
         color: Colors.white,
+      ),
+
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          iconColor: MaterialStateProperty.all(Colors.white),
+        ),
+      ),
+
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.white,
+        selectionColor: Colors.blue, 
       ),
 
       textTheme: const TextTheme(
