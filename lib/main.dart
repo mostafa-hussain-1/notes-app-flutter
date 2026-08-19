@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/screens/layouts/home_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
+import 'package:notes_app/states/theme_cubit.dart';
+import 'package:notes_app/states/theme_state.dart';
 import 'themes/app_theme.dart';
 
 void main() {
@@ -13,20 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color currentPrimaryColor;
-    //currentPrimaryColor = context.watch<ThemeProvider>().primaryColor;
-    currentPrimaryColor = Color.fromARGB(255, 50, 20, 30);
-    //final currentThemeMode = context.watch<ThemeProvider>().themeMode;
 
-    return BlocProvider(
-      create: (context) => NotesCubit()..fetchAllNotes(),
-      child:MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Notes APP',
-        theme: AppThemes.getLightTheme(currentPrimaryColor),
-        darkTheme: AppThemes.getDarkTheme(currentPrimaryColor),
-        themeMode: ThemeMode.system,
-        home: const HomePage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NotesCubit()..fetchAllNotes()),
+        BlocProvider(create: (context) => ThemeCubit(),),
+      ],
+
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          
+          var themeCubit = context.read<ThemeCubit>(); 
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Notes APP',
+
+            themeMode: themeCubit.appThemeMode,
+            theme: AppThemes.getLightTheme(themeCubit.primaryColor),
+            darkTheme: AppThemes.getDarkTheme(themeCubit.primaryColor),
+
+            home: const HomePage(),
+          );
+        },
       ),
     );
   }

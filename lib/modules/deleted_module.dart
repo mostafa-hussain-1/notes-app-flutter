@@ -36,7 +36,7 @@ class _DeleteModuleState extends State<DeleteModule> {
             return Column(
               children: [
                 Expanded(
-                  child: DynamicNotesList(notes: displayList),
+                  child: DynamicNotesList(notes: displayList, type: 'trash'),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),

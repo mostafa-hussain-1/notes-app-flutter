@@ -5,6 +5,7 @@ import 'package:notes_app/modules/deleted_module.dart';
 import 'package:notes_app/modules/note_module.dart';
 import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
+import 'package:notes_app/themes/theme_settings.dart';
 
 String searchQuery = '';
 
@@ -51,13 +52,14 @@ TextEditingController searchController = TextEditingController();
         actions:
          [
           Padding(padding: EdgeInsets.all(12),
-          child: IconButton(
-            onPressed:()
-            {
+          //child: IconButton(
+            //onPressed:()
+            //{
               //for change theme
-            } ,
-            icon:Icon(Icons.format_color_fill)
-            )
+              child: ThemeSettings()
+            //} ,
+            //icon:Icon(Icons.format_color_fill)
+            //)
             )
          ],
       ),

@@ -29,7 +29,7 @@ class _ArchivedModuleState extends State<ArchivedModule> {
           else if (state is NotesSuccess) {
             List<NoteModel> displayList = searchNotes(state.archiveNotes, widget.currentSearchText);
             
-            return DynamicNotesList(notes: displayList);
+            return DynamicNotesList(notes: displayList, type: 'archive');
           } 
           
           else if (state is NotesError) {
