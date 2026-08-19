@@ -4,7 +4,6 @@ import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
 import 'package:notes_app/screens/layouts/home_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
 import 'themes/app_theme.dart';
-import 'screens/layouts/homeScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,10 +37,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Notes APP',
 
+<<<<<<< HEAD
       home: const HomePage(),
 
       theme: AppThemes.getLightTheme(currentPrimaryColor),
       darkTheme: AppThemes.getDarkTheme(currentPrimaryColor),
+=======
+        theme: AppThemes.getLightTheme(currentPrimaryColor),
+        darkTheme: AppThemes.getDarkTheme(currentPrimaryColor),
+>>>>>>> main
 
       themeMode: ThemeMode.system,
     );

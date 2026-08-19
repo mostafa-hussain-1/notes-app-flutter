@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/modules/archived_module.dart';
 import 'package:notes_app/modules/deleted_module.dart';
 import 'package:notes_app/modules/note_module.dart';
+import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
+import 'package:notes_app/states/notes_cubit.dart';
 
 String searchQuery = '';
 
@@ -75,8 +78,16 @@ TextEditingController searchController = TextEditingController();
               hintText: 'Search here',
               prefixIcon: Icon(Icons.search_outlined),
             ),
+<<<<<<< HEAD
           controller: searchController,
           keyboardType: TextInputType.text,
+=======
+          onChanged: (value)
+          {
+            context.read<NotesCubit>().searchInNotes(value);
+          },
+          keyboardType: TextInputType.text, //controller...
+>>>>>>> main
           ),
           screens[currentIndex],
         ],
@@ -112,18 +123,17 @@ TextEditingController searchController = TextEditingController();
       currentIndex==0 ?FloatingActionButton
       (onPressed:()
       {
-      //add
+      Navigator.push
+      (
+        context,
+        MaterialPageRoute
+        (
+          builder: (context)=>AddEditNoteScreen()
+          )
+      );
       },
       child: Icon(Icons.add),
-      ) :
-      currentIndex ==1 ?FloatingActionButton
-      (
-        onPressed: ()
-        {
-        //delete all deleted notes fun
-        },
-        child: Icon(Icons.delete_outline_outlined),
-      ):null
+      ) :null
     );
   }
 }

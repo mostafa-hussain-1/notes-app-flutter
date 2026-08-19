@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/states/notes_states.dart';
 
+import 'package:notes_app/functions/search.dart';
+
 
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial());
@@ -19,23 +21,23 @@ class NotesCubit extends Cubit<NotesState> {
     NoteModel note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'mostafa';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'elsayed';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'bigoo';
     note = NoteModel(title: title, content: content);
     activeNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'sama';
     note = NoteModel(title: title, content: content);
     archiveNotes.add(note);
     content = 'erk;gjbrg';
-    title = 'erk';
+    title = 'tifa';
     note = NoteModel(title: title, content: content);
     archiveNotes.add(note);
     content = 'erk;gjbrg';
@@ -46,8 +48,20 @@ class NotesCubit extends Cubit<NotesState> {
     title = 'erk';
     note = NoteModel(title: title, content: content);
     trashNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'erk';
+    content = 'al';
+    title = 'you';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'me';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'she';
+    note = NoteModel(title: title, content: content);
+    trashNotes.add(note);
+    content = 'al';
+    title = 'he';
     note = NoteModel(title: title, content: content);
     trashNotes.add(note);
     
@@ -56,6 +70,22 @@ class NotesCubit extends Cubit<NotesState> {
     emit(NotesSuccess(activeNotes: activeNotes, archiveNotes: archiveNotes, trashNotes: trashNotes));
   }
 
+  //edit yousef
+  void searchInNotes(String searchText) 
+  {
+    final filteredActiveNotes = searchNotes(activeNotes, searchText);
+    final filteredArchive = searchNotes(archiveNotes, searchText);
+    final filteredTrash = searchNotes(trashNotes, searchText);
+
+    emit(NotesSuccess(
+      activeNotes: filteredActiveNotes, 
+      archiveNotes: filteredArchive, 
+      trashNotes: filteredTrash,
+    ));
+  }
+
+  
+
 
   void addNote(NoteModel note) {
     emit(NotesLoading()); 
@@ -63,11 +93,30 @@ class NotesCubit extends Cubit<NotesState> {
     activeNotes.add(note);
     
     emit(NotesSuccess(
-      activeNotes: activeNotes, 
-      archiveNotes: archiveNotes, 
-      trashNotes: trashNotes
+      activeNotes: List.from(activeNotes), 
+      archiveNotes: List.from(archiveNotes), 
+      trashNotes: List.from(trashNotes)
     ));
   }
+
+
+
+  void clearTrash()
+  {
+    emit(NotesLoading());   //Useful when in use database
+
+    trashNotes.clear();
+
+    emit(NotesSuccess
+    (
+    activeNotes: List.from(activeNotes),
+    archiveNotes: List.from(archiveNotes),
+    trashNotes: List.from(trashNotes),
+      )
+      );
+
+  }
+
 
   
 }
