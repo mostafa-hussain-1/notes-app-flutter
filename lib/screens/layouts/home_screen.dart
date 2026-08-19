@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/modules/archived_model.dart';
-import 'package:notes_app/modules/deleted_model.dart';
-import 'package:notes_app/modules/note_model.dart';
+import 'package:notes_app/modules/archived_module.dart';
+import 'package:notes_app/modules/deleted_module.dart';
+import 'package:notes_app/modules/note_module.dart';
+
+
+String searchQuery = '';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +24,7 @@ _searchController.dispose(); //for cleaning history
     super.dispose();
 }
 //controllers
-TextEditingController searchController =TextEditingController();
+TextEditingController searchController = TextEditingController();
 
 
   int currentIndex =0;
@@ -34,9 +37,9 @@ TextEditingController searchController =TextEditingController();
 
   List<Widget> screens = 
   [
-    NotesModel(),
-    DeleteModel(),
-    ArchivedModel(),
+    NotesModule(currentSearchText: searchQuery,),
+    DeleteModule(currentSearchText: searchQuery,),
+    ArchivedModule(currentSearchText: searchQuery,),
   ];
 
   @override
@@ -79,8 +82,8 @@ TextEditingController searchController =TextEditingController();
             ),
           controller: searchController,
           keyboardType: TextInputType.text, //controller...
-          )
-          //other notes (after search box )
+          ),
+          screens[currentIndex],
         ],
       ),
       ),

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-
-class NoteModel {
-  final String title;
-  final String content;
-
-  NoteModel({required this.title, required this.content});
-}
+import 'package:notes_app/models/notes_model.dart';
 
 class NoteCard extends StatelessWidget {
   final NoteModel note;

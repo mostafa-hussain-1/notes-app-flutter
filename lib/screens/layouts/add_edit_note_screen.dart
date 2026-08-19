@@ -205,31 +205,26 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                       children: [
                         IconButton(
                           tooltip: "Bold",
-                          color: Theme.of(context).colorScheme.primary,
                           onPressed: () => _insertMarkdown('**', '**'),
                           icon: const Icon(Icons.format_bold),
                         ),
                         IconButton(
                           tooltip: "Italic",
-                          color: Theme.of(context).colorScheme.primary,
                           onPressed: () => _insertMarkdown('*', '*'),
                           icon: const Icon(Icons.format_italic),
                         ),
                         IconButton(
                           tooltip: "List",
-                          color: Theme.of(context).colorScheme.primary,
                           onPressed: () => _insertMarkdown('- '),
                           icon: const Icon(Icons.format_list_bulleted),
                         ),
                         IconButton(
                           tooltip: "Heading 1",
-                          color: Theme.of(context).colorScheme.primary,
                           onPressed: () => _insertMarkdown('# '),
                           icon: const Icon(Icons.title),
                         ),
                         IconButton(
                           tooltip: "Code",
-                          color: Theme.of(context).colorScheme.primary,
                           onPressed: () => _insertMarkdown('```\n', '\n```'),
                           icon: const Icon(Icons.code),
                         ),
