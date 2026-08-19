@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:notes_app/modules/Notes_model.dart';
 import 'package:notes_app/modules/Delete_model.dart';
@@ -123,14 +125,15 @@ TextEditingController searchController =TextEditingController();
       ),
       floatingActionButton: 
       currentIndex==0 ?FloatingActionButton
-      (onPressed:()
+      (heroTag: 'addNote',
+        onPressed:()
       {
         //add note fun
       },
       child: Icon(Icons.add),
       ) :
       currentIndex ==1 ?FloatingActionButton
-      (
+      (heroTag: 'clearNotes',
         onPressed: ()
         {
           //delete all deleted notes fun
