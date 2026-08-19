@@ -29,7 +29,7 @@ class _DeleteModuleState extends State<DeleteModule> {
           else if (state is NotesSuccess) {
             List<NoteModel> displayList = searchNotes(state.trashNotes, widget.currentSearchText);
             
-            return DynamicNotesList(notes: displayList);
+            return DynamicNotesList(notes: displayList, type: 'trash');
           } 
           
           else if (state is NotesError) {

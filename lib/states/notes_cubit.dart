@@ -56,7 +56,6 @@ class NotesCubit extends Cubit<NotesState> {
     emit(NotesSuccess(activeNotes: activeNotes, archiveNotes: archiveNotes, trashNotes: trashNotes));
   }
 
-
   void addNote(NoteModel note) {
     emit(NotesLoading()); 
 
@@ -69,5 +68,52 @@ class NotesCubit extends Cubit<NotesState> {
     ));
   }
 
+  void archiveNote(NoteModel note) {
+    emit(NotesLoading());
   
+    activeNotes.remove(note);
+    archiveNotes.add(note);
+  
+    emit(NotesSuccess(
+      activeNotes: activeNotes,
+      archiveNotes: archiveNotes,
+      trashNotes: trashNotes,
+    ));
+  }
+  
+  void trashNote(NoteModel note, String type) {
+    emit(NotesLoading());
+  
+    if (type == 'active') {
+      activeNotes.remove(note);
+    } else if (type == 'archive') {
+      archiveNotes.remove(note);
+    }
+  
+    trashNotes.add(note);
+  
+    emit(NotesSuccess(
+      activeNotes: activeNotes,
+      archiveNotes: archiveNotes,
+      trashNotes: trashNotes,
+    ));
+  }
+  
+  void restoreNote(NoteModel note, String type) {
+    emit(NotesLoading());
+  
+    if (type == 'archive') {
+      archiveNotes.remove(note);
+    } else if (type == 'trash') {
+      trashNotes.remove(note);
+    }
+  
+    activeNotes.add(note);
+  
+    emit(NotesSuccess(
+      activeNotes: activeNotes,
+      archiveNotes: archiveNotes,
+      trashNotes: trashNotes,
+    ));
+  }
 }

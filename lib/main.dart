@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
 import 'package:notes_app/screens/layouts/home_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
 import 'themes/app_theme.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemes.getLightTheme(currentPrimaryColor),
         darkTheme: AppThemes.getDarkTheme(currentPrimaryColor),
         themeMode: ThemeMode.system,
-        home: const AddEditNoteScreen(),
+        home: const HomePage(),
       ),
     ); 
   }

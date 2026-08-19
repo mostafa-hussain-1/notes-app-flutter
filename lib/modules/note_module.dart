@@ -29,7 +29,7 @@ class _NotesModuleState extends State<NotesModule> {
           else if (state is NotesSuccess) {
             List<NoteModel> displayList = searchNotes(state.activeNotes, widget.currentSearchText);
             
-            return DynamicNotesList(notes: displayList);
+            return DynamicNotesList(notes: displayList, type: 'active');
           } 
           
           else if (state is NotesError) {
