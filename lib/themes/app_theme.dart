@@ -31,7 +31,7 @@ class AppThemes {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          iconColor: MaterialStateProperty.all(Colors.black),
+          iconColor: WidgetStateProperty.all(Colors.black),
         ),
       ),
 
@@ -90,7 +90,7 @@ class AppThemes {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          iconColor: MaterialStateProperty.all(Colors.white),
+          iconColor: WidgetStateProperty.all(Colors.white),
         ),
       ),
 

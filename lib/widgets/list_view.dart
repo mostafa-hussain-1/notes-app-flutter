@@ -5,7 +5,7 @@ import 'package:notes_app/widgets/note_card.dart';
 class DynamicNotesList extends StatelessWidget {
   final List<NoteModel> notes;
 
-  const DynamicNotesList({Key? key, required this.notes}) : super(key: key);
+  const DynamicNotesList({super.key, required this.notes});
 
   @override
   Widget build(BuildContext context) {
