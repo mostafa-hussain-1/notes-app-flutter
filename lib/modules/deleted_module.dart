@@ -26,19 +26,52 @@ class _DeleteModuleState extends State<DeleteModule> {
             return const Center(child: CircularProgressIndicator());
           } 
           
-          else if (state is NotesSuccess) {
+         else if (state is NotesSuccess) {
             List<NoteModel> displayList = searchNotes(state.trashNotes, widget.currentSearchText);
             
-            return DynamicNotesList(notes: displayList);
+            if (displayList.isEmpty) {
+              return const Center(child: Text('There is nothing here!'));
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: DynamicNotesList(notes: displayList),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Center(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+
+                        context.read<NotesCubit>().clearTrash();
+                          //for clear note in trash code
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red.shade100,
+                        foregroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      icon: const Icon(Icons.delete_forever),
+                      label: const Text('Clear Trash'),
+                    ),
+                  ),
+                ),
+              ],
+            );
           } 
           
           else if (state is NotesError) {
             return Center(child: Text(state.errorMessage));
           }
-
+          
           return const Center(child: Text('There is nothing here!'));
         },
-      )
+      ),
     );
   }
 }
