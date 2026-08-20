@@ -57,6 +57,12 @@ class AppThemes {
         ),
         labelStyle: TextStyle(color: primaryColor),
       ),
+
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+      ),
     );
   }
 
@@ -115,6 +121,12 @@ class AppThemes {
           borderSide: BorderSide(color: primaryColor, width: 2),
         ),
         labelStyle: TextStyle(color: primaryColor),
+      ),
+
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
       ),
     );
   }
