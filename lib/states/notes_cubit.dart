@@ -69,6 +69,19 @@ class NotesCubit extends Cubit<NotesState> {
     ));
   }
 
+  void updateNote(NoteModel note) {
+    emit(NotesLoading()); 
+    
+    int index = activeNotes.indexWhere((element) => element.id == note.id);
+    
+    if (index != -1) {
+      activeNotes[index] = note;
+      saveOrUpdateNote(note);
+    }
+    
+    emit(NotesSuccess(activeNotes: activeNotes, archiveNotes: archiveNotes, trashNotes: trashNotes));
+  }
+
   void archiveNote(NoteModel note) {
     emit(NotesLoading());
   
