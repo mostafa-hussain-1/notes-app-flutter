@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
 
 class NoteCard extends StatelessWidget {
@@ -113,9 +114,16 @@ class NoteCard extends StatelessWidget {
     return Material(
     color: Theme.of(context).cardColor,
     borderRadius: BorderRadius.circular(16),
-    elevation: 0, // خليت الظل بره في الـ Container أو ممكن تنقله هنا
+    elevation: 0, 
     child: InkWell(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push (context,
+          MaterialPageRoute
+          (
+            builder: (context)=>AddEditNoteScreen(initialTitle: note.title, initialContent: note.content, initialPreviewMode: true,)
+          )
+        );
+      },
       borderRadius: BorderRadius.circular(16),
       child: Container(
       width: double.infinity,
