@@ -42,9 +42,38 @@ class ThemeCubit extends Cubit<ThemeState> {
     }
   }
 
+  void loadRecentColors() {
+    var box = Hive.box('settings_box');
+    
+    List<dynamic> savedColors = box.get('recent_colors', defaultValue: []);
+    
+    recentColors = savedColors.map((colorValue) => Color(colorValue as int)).toList();
+  }
+
+  void addColorToRecent(Color newColor) {
+    var box = Hive.box('settings_box');
+    
+    List<dynamic> savedColors = box.get('recent_colors', defaultValue: []);
+    
+    int newColorValue = newColor.value;
+
+    savedColors.remove(newColorValue);
+
+    savedColors.insert(0, newColorValue);
+
+    if (savedColors.length > 5) {
+      savedColors = savedColors.sublist(0, 5);
+    }
+
+    box.put('recent_colors', savedColors);
+
+    loadRecentColors(); 
+  }
+
   void getThemeSettings(){
     getAppColor();
     getAppTheme();
+    loadRecentColors();
   }
 
   void changeTheme(ThemeMode mode) {
@@ -55,9 +84,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   void changeColor(Color color) {
     primaryColor = color;
     
-    if (!recentColors.contains(color)) {
-      recentColors.add(color);
-    }
+    addColorToRecent(color);
     
     emit(ThemeChanged());
   }

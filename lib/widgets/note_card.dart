@@ -120,7 +120,7 @@ class NoteCard extends StatelessWidget {
         Navigator.push (context,
           MaterialPageRoute
           (
-            builder: (context)=>AddEditNoteScreen(initialTitle: note.title, initialContent: note.content, initialPreviewMode: true,)
+            builder: (context)=>AddEditNoteScreen(note: note, initialPreviewMode: true,)
           )
         );
       },
