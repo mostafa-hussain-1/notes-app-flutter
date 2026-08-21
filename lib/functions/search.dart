@@ -12,4 +12,3 @@ List<NoteModel> searchNotes(List<NoteModel> notes, String searchText) {
     }).toList();
   return filterNotes;
 }
-//done
