@@ -8,12 +8,13 @@ class AddEditNoteScreen extends StatefulWidget {
   final String? initialTitle;
   final String? initialContent;
   final bool? initialIsMarkdown;
-
+  final bool initialPreviewMode;
   const AddEditNoteScreen({
     super.key,
     this.initialTitle,
     this.initialContent,
-    this.initialIsMarkdown,
+    this.initialIsMarkdown = false,
+    this.initialPreviewMode = false,
   });
 
   @override
@@ -24,7 +25,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _contentController;
   late bool _isMarkdownEnable;
-  bool _isPreviewMode = false;
+  late bool _isPreviewMode = false;
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       text: widget.initialContent ?? '',
     );
     _isMarkdownEnable = widget.initialIsMarkdown ?? false;
+    _isPreviewMode = widget.initialPreviewMode;
   }
 
   @override
@@ -50,21 +52,72 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     final start = selection.start;
     final end = selection.end;
 
+    // لو المؤشر في مكان غير محدد أو في البداية
     if (start < 0 || end < 0) {
       _contentController.text = text + prefix + suffix;
       return;
     }
-    final selectedText = text.substring(start, end);
-    final newText = text.replaceRange(
-      start,
-      end,
-      '$prefix$selectedText$suffix',
-    );
 
-    _contentController.text = newText;
-    _contentController.selection = TextSelection.collapsed(
-      offset: start + prefix.length + selectedText.length + suffix.length,
-    );
+    // 1. لو المستخدم محدد كلمة معينة (Selected Text)
+    if (start != end) {
+      final selectedText = text.substring(start, end);
+
+      // التحقق: هل الكلمة المحددة بداخلها الرموز بالفعل؟
+      if (suffix.isNotEmpty &&
+          selectedText.startsWith(prefix) &&
+          selectedText.endsWith(suffix) &&
+          selectedText.length >= prefix.length + suffix.length) {
+        // إلغاء التنسيق (حذف الرموز من البداية والنهاية)
+        final unwrappedText = selectedText.substring(
+          prefix.length,
+          selectedText.length - suffix.length,
+        );
+        _contentController.text = text.replaceRange(start, end, unwrappedText);
+        _contentController.selection = TextSelection(
+          baseOffset: start,
+          extentOffset: start + unwrappedText.length,
+        );
+        return;
+      }
+
+      // التحقق: هل الرموز موجودة خارج الكلمة المحددة مباشرة؟
+      if (suffix.isNotEmpty &&
+          start >= prefix.length &&
+          end + suffix.length <= text.length &&
+          text.substring(start - prefix.length, start) == prefix &&
+          text.substring(end, end + suffix.length) == suffix) {
+        // إلغاء التنسيق بحذف الرموز المحيطة بالنص
+        final newText =
+            text.substring(0, start - prefix.length) +
+            selectedText +
+            text.substring(end + suffix.length);
+        _contentController.text = newText;
+        _contentController.selection = TextSelection(
+          baseOffset: start - prefix.length,
+          extentOffset: end - prefix.length,
+        );
+        return;
+      }
+
+      // إضافة التنسيق العادي إذا لم يكن موجوداً
+      final newText = text.replaceRange(
+        start,
+        end,
+        '$prefix$selectedText$suffix',
+      );
+      _contentController.text = newText;
+      _contentController.selection = TextSelection(
+        baseOffset: start + prefix.length,
+        extentOffset: end + prefix.length,
+      );
+    } else {
+      // 2. لو مفيش نص محدد ومجرد المؤشر واقف
+      final newText = text.replaceRange(start, end, '$prefix$suffix');
+      _contentController.text = newText;
+      _contentController.selection = TextSelection.collapsed(
+        offset: start + prefix.length,
+      );
+    }
   }
 
   @override
@@ -114,21 +167,24 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            (widget.initialTitle != null || widget.initialContent != null)
-                ? 'Edit Note'
-                : 'Add Note',
+            _isPreviewMode
+                ? 'Note Preview'
+                : ((widget.initialTitle != null ||
+                          widget.initialContent != null)
+                      ? 'Edit Note'
+                      : 'Add Note'),
           ),
           actions: [
-            if (_isMarkdownEnable)
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _isPreviewMode = !_isPreviewMode;
-                  });
-                },
-                icon: Icon(_isPreviewMode ? Icons.edit : Icons.visibility),
-                tooltip: _isPreviewMode ? 'Edit' : 'Preview',
-              ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _isPreviewMode = !_isPreviewMode;
+                });
+              },
+              icon: Icon(_isPreviewMode ? Icons.edit : Icons.visibility),
+              tooltip: _isPreviewMode ? 'Edit' : 'Preview',
+            ),
+
             IconButton(
               icon: const Icon(Icons.check),
               tooltip: "Save",
@@ -160,7 +216,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   }
                 }
                 NoteModel newNote = NoteModel(title: title, content: content);
-                
+
                 context.read<NotesCubit>().addNote(newNote);
 
                 Navigator.pop(context, {
@@ -176,27 +232,40 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           child: Column(
             children: [
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  hintText: "Title",
-                  border: InputBorder.none,
+              if (!_isPreviewMode)
+                TextField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    hintText: "Title",
+                    border: InputBorder.none,
+                  ),
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const Divider(),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Markdown Mode'),
-                value: _isMarkdownEnable,
-                activeColor: Theme.of(context).colorScheme.primary,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _isMarkdownEnable = value ?? false;
-                  });
-                },
-              ),
-              if (_isMarkdownEnable)
+
+              if (_titleController.text.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    _titleController.text,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              if (!_isPreviewMode) const Divider(),
+              if (!_isPreviewMode)
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Markdown Mode'),
+                  value: _isMarkdownEnable,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _isMarkdownEnable = value ?? false;
+                    });
+                  },
+                ),
+              if (_isMarkdownEnable && !_isPreviewMode)
                 Container(
                   margin: const EdgeInsets.only(bottom: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -234,6 +303,11 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                           onPressed: () => _insertMarkdown('```\n', '\n```'),
                           icon: const Icon(Icons.code),
                         ),
+                        IconButton(
+                          tooltip: "Strikethrough",
+                          onPressed: () => _insertMarkdown('~~', '~~'),
+                          icon: const Icon(Icons.format_strikethrough),
+                        ),
                       ],
                     ),
                   ),
@@ -243,6 +317,8 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(8),
+                        alignment: Alignment.topLeft,
+
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Theme.of(context).dividerColor,
@@ -254,6 +330,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                             data: _contentController.text.isEmpty
                                 ? '_لا يوجد نص للمعاينة_'
                                 : _contentController.text,
+                            selectable: true,
                           ),
                         ),
                       )

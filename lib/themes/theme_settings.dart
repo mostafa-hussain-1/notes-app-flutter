@@ -35,6 +35,7 @@ content: SingleChildScrollView(
                   groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
                     context.read<ThemeCubit>().changeTheme(value!);
+                    context.read<ThemeCubit>().saveAppTheme(value.toString());
                   },  
                 ),  
 
@@ -44,6 +45,7 @@ content: SingleChildScrollView(
                   groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
                     context.read<ThemeCubit>().changeTheme(value!);
+                    context.read<ThemeCubit>().saveAppTheme(value.toString());
                   },  
                 ),
 
@@ -53,6 +55,7 @@ content: SingleChildScrollView(
                   groupValue: context.read<ThemeCubit>().appThemeMode,                  
                   onChanged: (value) {  
                     context.read<ThemeCubit>().changeTheme(value!);
+                    context.read<ThemeCubit>().saveAppTheme(value.toString());
                   },   
                 ),  
 
@@ -66,6 +69,7 @@ content: SingleChildScrollView(
                   color: context.read<ThemeCubit>().primaryColor,  
                   onColorChanged: (color) {  
                     context.read<ThemeCubit>().changeColor(color);    
+                    context.read<ThemeCubit>().saveAppColor(color);
                   },  
                 ),  
 
@@ -82,6 +86,7 @@ content: SingleChildScrollView(
                       return GestureDetector(  
                         onTap: () {  
                           context.read<ThemeCubit>().changeColor(color);
+                          context.read<ThemeCubit>().saveAppColor(color);
                         },  
 
                         child: Container(  
