@@ -5,14 +5,12 @@ import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/states/notes_cubit.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-  final String? initialTitle;
-  final String? initialContent;
+  final NoteModel? note;
   final bool? initialIsMarkdown;
   final bool initialPreviewMode;
   const AddEditNoteScreen({
     super.key,
-    this.initialTitle,
-    this.initialContent,
+    this.note,
     this.initialIsMarkdown = false,
     this.initialPreviewMode = false,
   });
@@ -22,18 +20,18 @@ class AddEditNoteScreen extends StatefulWidget {
 }
 
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
-  late final TextEditingController _titleController;
-  late final TextEditingController _contentController;
+  late final TextEditingController _titleController = TextEditingController();
+  late final TextEditingController _contentController = TextEditingController();
   late bool _isMarkdownEnable;
-  late bool _isPreviewMode = false;
+  late bool _isPreviewMode;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.initialTitle ?? '');
-    _contentController = TextEditingController(
-      text: widget.initialContent ?? '',
-    );
+    if (widget.note != null) {
+      _titleController.text = widget.note!.title;
+      _contentController.text = widget.note!.content;
+    }
     _isMarkdownEnable = widget.initialIsMarkdown ?? false;
     _isPreviewMode = widget.initialPreviewMode;
   }
@@ -128,8 +126,8 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
         if (didPop) return;
         final currentTitle = _titleController.text.trim();
         final currentContent = _contentController.text.trim();
-        final initialTitle = widget.initialTitle?.trim() ?? '';
-        final initialContent = widget.initialContent?.trim() ?? '';
+        final initialTitle = widget.note?.title.trim() ?? '';
+        final initialContent = widget.note?.content.trim() ?? '';
 
         final hasChanges =
             currentTitle != initialTitle || currentContent != initialContent;
@@ -169,10 +167,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
           title: Text(
             _isPreviewMode
                 ? 'Note Preview'
-                : ((widget.initialTitle != null ||
-                          widget.initialContent != null)
-                      ? 'Edit Note'
-                      : 'Add Note'),
+                : (widget.note != null ? 'Edit Note' : 'Add Note'),
           ),
           actions: [
             IconButton(
@@ -215,9 +210,18 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                     title = 'No Title';
                   }
                 }
-                NoteModel newNote = NoteModel(title: title, content: content);
 
-                context.read<NotesCubit>().addNote(newNote);
+                if (widget.note == null) {
+                  NoteModel newNote = NoteModel(title: title, content: content);
+                  context.read<NotesCubit>().addNote(newNote);
+                } else {
+                  NoteModel updatedNote = NoteModel(
+                    title: title,
+                    content: content,
+                  );
+                  updatedNote.type = widget.note!.type;
+                  context.read<NotesCubit>().updateNote(updatedNote);
+                }
 
                 Navigator.pop(context, {
                   'title': title,
@@ -242,7 +246,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
 
-              if (_titleController.text.isNotEmpty)
+              if (_isPreviewMode && _titleController.text.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
@@ -331,6 +335,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                                 ? '_لا يوجد نص للمعاينة_'
                                 : _contentController.text,
                             selectable: true,
+                            softLineBreak: true,
                           ),
                         ),
                       )
