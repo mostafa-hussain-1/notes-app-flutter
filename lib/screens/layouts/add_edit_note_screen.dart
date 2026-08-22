@@ -167,8 +167,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
           title: Text(
             _isPreviewMode
                 ? 'Note Preview'
-                : ((widget.note?.title != null ||
-                          widget.note?.content != null)
+                : ((widget.note?.title != null || widget.note?.content != null)
                       ? 'Edit Note'
                       : 'Add Note'),
           ),
