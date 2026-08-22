@@ -1,80 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/screens/layouts/add_edit_note_screen.dart';
 import 'package:notes_app/states/notes_cubit.dart';
 
 class NoteCard extends StatelessWidget {
   final NoteModel note;
   final String type;
-  final VoidCallback? onTap;
 
   const NoteCard({
     super.key,
     required this.note,
-    required this.type,
-    this.onTap,
+    required this.type
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: SizedBox(
-        height: 90,
-        child: Dismissible(
-          key: ValueKey(note.title + note.content),
-          direction: type == 'trash'? 
-          DismissDirection.startToEnd : DismissDirection.horizontal,
-          
-          background: _buildActionBackground(
-            alignment: Alignment.centerLeft,
-            color: type == 'trash'? 
-            Colors.green.shade400 : Colors.red.shade400,
-            icon: type == 'trash'? 
-            Icons.restore : Icons.delete_outlined,
-            label: type == 'trash'? 
-            'Restore' : 'Trash',
-          ),
-          
-          secondaryBackground: _buildActionBackground(
-            alignment: Alignment.centerRight,
-            color: type == 'active'?
-            Colors.blueGrey.shade400 : Colors.green.shade400,
-            icon: type == 'active'?
-            Icons.archive_outlined : Icons.restore,
-            label: type == 'active'?
-            'Archive' : 'Restore',
-          ),
-        
-          confirmDismiss: (direction) async {
-            if (type == 'active') {
-              if (direction == DismissDirection.startToEnd) {
-                context.read<NotesCubit>().trashNote(note, type);
-              } else if (direction == DismissDirection.endToStart) {
-                context.read<NotesCubit>().archiveNote(note);
-              }
-            }
-          
-            else if (type == 'archive') {
-              if (direction == DismissDirection.startToEnd) {
-                context.read<NotesCubit>().trashNote(note, type);
-              } else if (direction == DismissDirection.endToStart) {
-                context.read<NotesCubit>().restoreNote(note, type);
-              }
-            }
-          
-            else if (type == 'trash') {
-              if (direction == DismissDirection.startToEnd) {
-                context.read<NotesCubit>().restoreNote(note, type);
-              }
-            }
-            return false;
-          },
-          child: _buildCardContent(context),
-        ),
+  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+  child: Dismissible(
+key: ValueKey(note.title + note.content),
+      direction: type == 'trash'? 
+      DismissDirection.startToEnd : DismissDirection.horizontal,
+      
+      background: _buildActionBackground(
+        alignment: Alignment.centerLeft,
+        color: type == 'trash'? 
+        Colors.green.shade400 : Colors.red.shade400,
+        icon: type == 'trash'? 
+        Icons.restore : Icons.delete_outlined,
+        label: type == 'trash'? 
+        'Restore' : 'Trash',
       ),
-    );
-  }
+      
+      secondaryBackground: _buildActionBackground(
+        alignment: Alignment.centerRight,
+        color: type == 'active'?
+        Colors.blueGrey.shade400 : Colors.green.shade400,
+        icon: type == 'active'?
+        Icons.archive_outlined : Icons.restore,
+        label: type == 'active'?
+        'Archive' : 'Restore',
+      ),
+    
+      confirmDismiss: (direction) async {
+        if (type == 'active') {
+          if (direction == DismissDirection.startToEnd) {
+            context.read<NotesCubit>().trashNote(note, type);
+          } else if (direction == DismissDirection.endToStart) {
+            context.read<NotesCubit>().archiveNote(note);
+          }
+        }
+      
+        else if (type == 'archive') {
+          if (direction == DismissDirection.startToEnd) {
+            context.read<NotesCubit>().trashNote(note, type);
+          } else if (direction == DismissDirection.endToStart) {
+            context.read<NotesCubit>().restoreNote(note, type);
+          }
+        }
+      
+        else if (type == 'trash') {
+          if (direction == DismissDirection.startToEnd) {
+            context.read<NotesCubit>().restoreNote(note, type);
+          }
+        }
+        return false;
+      },
+      child: _buildCardContent(context),
+    ),
+  );
+}
 
   Widget _buildActionBackground({
     required Alignment alignment,
@@ -113,9 +109,16 @@ class NoteCard extends StatelessWidget {
     return Material(
     color: Theme.of(context).cardColor,
     borderRadius: BorderRadius.circular(16),
-    elevation: 0, // خليت الظل بره في الـ Container أو ممكن تنقله هنا
+    elevation: 0, 
     child: InkWell(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push (context,
+          MaterialPageRoute
+          (
+            builder: (context)=>AddEditNoteScreen(note: note, initialPreviewMode: true,)
+          )
+        );
+      },
       borderRadius: BorderRadius.circular(16),
       child: Container(
       width: double.infinity,

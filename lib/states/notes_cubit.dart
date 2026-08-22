@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/states/notes_states.dart';
 import 'package:notes_app/functions/search.dart';
@@ -14,60 +15,29 @@ class NotesCubit extends Cubit<NotesState> {
   void fetchAllNotes() {
     emit(NotesLoading());
     
-    // load data base
-    String content = 'erk;gjbrg';
-    String title = 'erk';
-    NoteModel note = NoteModel(title: title, content: content);
-    activeNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'mostafa';
-    note = NoteModel(title: title, content: content);
-    activeNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'elsayed';
-    note = NoteModel(title: title, content: content);
-    activeNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'bigoo';
-    note = NoteModel(title: title, content: content);
-    activeNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'sama';
-    note = NoteModel(title: title, content: content);
-    archiveNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'tifa';
-    note = NoteModel(title: title, content: content);
-    archiveNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'erk';
-    note = NoteModel(title: title, content: content);
-    archiveNotes.add(note);
-    content = 'erk;gjbrg';
-    title = 'erk';
-    note = NoteModel(title: title, content: content);
-    trashNotes.add(note);
-    content = 'al';
-    title = 'you';
-    note = NoteModel(title: title, content: content);
-    trashNotes.add(note);
-    content = 'al';
-    title = 'me';
-    note = NoteModel(title: title, content: content);
-    trashNotes.add(note);
-    content = 'al';
-    title = 'she';
-    note = NoteModel(title: title, content: content);
-    trashNotes.add(note);
-    content = 'al';
-    title = 'he';
-    note = NoteModel(title: title, content: content);
-    trashNotes.add(note);
-    
-    // load data base
+    var box = Hive.box<NoteModel>('notes_box');
+    List<NoteModel> allNotes = box.values.toList();
+    activeNotes = allNotes.where((note) => note.type == NoteType.ACTIVE).toList();
+    archiveNotes = allNotes.where((note) => note.type == NoteType.ARCHIVED).toList();
+    trashNotes = allNotes.where((note) => note.type == NoteType.DELETED).toList();
 
     emit(NotesSuccess(activeNotes: activeNotes, archiveNotes: archiveNotes, trashNotes: trashNotes));
   }
+
+  void saveOrUpdateNote(NoteModel note) {
+    var box = Hive.box<NoteModel>('notes_box');
+    
+    box.put(note.id, note); 
+  }
+
+  void emptyTrash() {
+    var box = Hive.box<NoteModel>('notes_box');
+    var keysToDelete = trashNotes.map((note) => note.id).toList();
+
+    box.deleteAll(keysToDelete);
+    trashNotes.clear();
+  }
+
 
   //edit yousef
   void searchInNotes(String searchText) 
@@ -90,6 +60,7 @@ class NotesCubit extends Cubit<NotesState> {
     emit(NotesLoading()); 
 
     activeNotes.add(note);
+    saveOrUpdateNote(note);
     
     emit(NotesSuccess(
       activeNotes: activeNotes, 
@@ -98,11 +69,27 @@ class NotesCubit extends Cubit<NotesState> {
     ));
   }
 
+  void updateNote(NoteModel note) {
+    emit(NotesLoading()); 
+    
+    int index = activeNotes.indexWhere((element) => element.id == note.id);
+    
+    if (index != -1) {
+      activeNotes[index] = note;
+      saveOrUpdateNote(note);
+    }
+    
+    emit(NotesSuccess(activeNotes: activeNotes, archiveNotes: archiveNotes, trashNotes: trashNotes));
+  }
+
   void archiveNote(NoteModel note) {
     emit(NotesLoading());
   
     activeNotes.remove(note);
     archiveNotes.add(note);
+    note.type = NoteType.ARCHIVED;
+
+    saveOrUpdateNote(note);
   
     emit(NotesSuccess(
       activeNotes: activeNotes,
@@ -121,6 +108,10 @@ class NotesCubit extends Cubit<NotesState> {
     }
   
     trashNotes.add(note);
+
+    note.type = NoteType.DELETED;
+
+    saveOrUpdateNote(note);
   
     emit(NotesSuccess(
       activeNotes: activeNotes,
@@ -139,6 +130,10 @@ class NotesCubit extends Cubit<NotesState> {
     }
   
     activeNotes.add(note);
+    
+    note.type = NoteType.ACTIVE;
+
+    saveOrUpdateNote(note);
   
     emit(NotesSuccess(
       activeNotes: activeNotes,
@@ -149,9 +144,9 @@ class NotesCubit extends Cubit<NotesState> {
 
   void clearTrash()
   {
-    emit(NotesLoading());   //Useful when in use database
+    emit(NotesLoading());
 
-    trashNotes.clear();
+    emptyTrash();
 
     emit(NotesSuccess
       (
@@ -161,7 +156,4 @@ class NotesCubit extends Cubit<NotesState> {
       )
     );
   }
-
-
-  
 }
