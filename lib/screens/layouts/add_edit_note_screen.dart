@@ -29,7 +29,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   void initState() {
     super.initState();
     if (widget.note != null) {
-      _titleController.text = widget.note!.title; 
+      _titleController.text = widget.note!.title;
       _contentController.text = widget.note!.content;
     }
     _isMarkdownEnable = widget.initialIsMarkdown ?? false;
@@ -167,8 +167,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
           title: Text(
             _isPreviewMode
                 ? 'Note Preview'
-                : ((widget.note?.title != null ||
-                          widget.note?.content != null)
+                : ((widget.note?.title != null || widget.note?.content != null)
                       ? 'Edit Note'
                       : 'Add Note'),
           ),
@@ -215,12 +214,8 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                 }
 
                 if (widget.note == null) {
-                  NoteModel newNote = NoteModel(
-                    title: title, 
-                    content: content,
-                  );
+                  NoteModel newNote = NoteModel(title: title, content: content);
                   context.read<NotesCubit>().addNote(newNote);
-
                 } else {
                   NoteModel updatedNote = NoteModel(
                     id: widget.note!.id,
@@ -254,7 +249,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
 
-              if (_titleController.text.isNotEmpty)
+              if (_isPreviewMode && _titleController.text.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
@@ -343,6 +338,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                                 ? '_لا يوجد نص للمعاينة_'
                                 : _contentController.text,
                             selectable: true,
+                            softLineBreak: true,
                           ),
                         ),
                       )
