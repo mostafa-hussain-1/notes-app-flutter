@@ -6,7 +6,7 @@ class AppThemes {
       brightness: Brightness.light,
       primaryColor: primaryColor,
       scaffoldBackgroundColor: Colors.white,
-      
+
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         primary: primaryColor,
@@ -14,30 +14,26 @@ class AppThemes {
       ),
 
       appBarTheme: AppBarTheme(
-        backgroundColor: primaryColor, 
-        foregroundColor: Colors.white, 
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
-      
+
       cardColor: Colors.grey[100],
-      
+
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
       ),
 
-      iconTheme: const IconThemeData(
-        color: Colors.black, 
-      ),
+      iconTheme: const IconThemeData(color: Colors.black),
 
       iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          iconColor: WidgetStateProperty.all(Colors.black),
-        ),
+        style: ButtonStyle(iconColor: WidgetStateProperty.all(Colors.black)),
       ),
 
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Colors.black,
-        selectionColor: Colors.blue, 
+        selectionColor: Colors.blue,
       ),
 
       textTheme: const TextTheme(
@@ -71,7 +67,7 @@ class AppThemes {
       brightness: Brightness.dark,
       primaryColor: primaryColor,
       scaffoldBackgroundColor: const Color(0xFF121212),
-      
+
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         primary: primaryColor,
@@ -79,30 +75,26 @@ class AppThemes {
       ),
 
       appBarTheme: AppBarTheme(
-        backgroundColor: primaryColor, 
-        foregroundColor: Colors.white, 
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
-      
+
       cardColor: const Color(0xFF1E1E1E),
-      
+
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
       ),
 
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-      ),
+      iconTheme: const IconThemeData(color: Colors.white),
 
       iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          iconColor: WidgetStateProperty.all(Colors.white),
-        ),
+        style: ButtonStyle(iconColor: WidgetStateProperty.all(Colors.white)),
       ),
 
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Colors.white,
-        selectionColor: Colors.blue, 
+        selectionColor: Colors.blue,
       ),
 
       textTheme: const TextTheme(

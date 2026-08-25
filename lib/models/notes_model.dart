@@ -13,17 +13,18 @@ class NoteModel {
   @HiveField(3)
   NoteType type = NoteType.ACTIVE;
 
-  NoteModel({String? id, required this.title, required this.content}): id = id ?? DateTime.now().toString();
+  NoteModel({String? id, required this.title, required this.content})
+    : id = id ?? DateTime.now().toString();
 }
 
 @HiveType(typeId: 1)
 enum NoteType {
   @HiveField(0)
   ACTIVE,
-  
+
   @HiveField(1)
   ARCHIVED,
-  
+
   @HiveField(2)
   DELETED,
 }

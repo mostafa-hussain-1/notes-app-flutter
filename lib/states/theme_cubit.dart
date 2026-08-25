@@ -12,12 +12,12 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void saveAppColor(Color color) {
     var box = Hive.box('settings_box');
-    box.put('app_color', color.value); 
+    box.put('app_color', color.value);
   }
 
   void getAppColor() {
     var box = Hive.box('settings_box');
-    int color = box.get('app_color', defaultValue: 0xFF2196F3); 
+    int color = box.get('app_color', defaultValue: 0xFF2196F3);
     primaryColor = Color(color);
   }
 
@@ -28,8 +28,8 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void getAppTheme() {
     var box = Hive.box('settings_box');
-    
-    String savedTheme = box.get('app_theme', defaultValue: 'system'); 
+
+    String savedTheme = box.get('app_theme', defaultValue: 'system');
 
     switch (savedTheme) {
       case 'light':
@@ -44,17 +44,19 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void loadRecentColors() {
     var box = Hive.box('settings_box');
-    
+
     List<dynamic> savedColors = box.get('recent_colors', defaultValue: []);
-    
-    recentColors = savedColors.map((colorValue) => Color(colorValue as int)).toList();
+
+    recentColors = savedColors
+        .map((colorValue) => Color(colorValue as int))
+        .toList();
   }
 
   void addColorToRecent(Color newColor) {
     var box = Hive.box('settings_box');
-    
+
     List<dynamic> savedColors = box.get('recent_colors', defaultValue: []);
-    
+
     int newColorValue = newColor.value;
 
     savedColors.remove(newColorValue);
@@ -67,10 +69,10 @@ class ThemeCubit extends Cubit<ThemeState> {
 
     box.put('recent_colors', savedColors);
 
-    loadRecentColors(); 
+    loadRecentColors();
   }
 
-  void getThemeSettings(){
+  void getThemeSettings() {
     getAppColor();
     getAppTheme();
     loadRecentColors();
@@ -83,9 +85,9 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void changeColor(Color color) {
     primaryColor = color;
-    
+
     addColorToRecent(color);
-    
+
     emit(ThemeChanged());
   }
 }

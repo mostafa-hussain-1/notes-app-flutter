@@ -17,121 +17,101 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  final TextEditingController _searchController = TextEditingController();  //vars for controll
+  final TextEditingController _searchController =
+      TextEditingController(); //vars for controll
 
   @override
   void dispose() {
-_searchController.dispose(); //for cleaning history
+    _searchController.dispose(); //for cleaning history
     super.dispose();
-}
-//controllers
-TextEditingController searchController = TextEditingController();
-  int currentIndex =0;
-  final List<String> _titles = [
-  'Notes',
-  'Trash',
-  'Archived',
-];
+  }
 
-  List<Widget> screens = 
-  [
-    NotesModule(currentSearchText: searchQuery,),
-    DeleteModule(currentSearchText: searchQuery,),
-    ArchivedModule(currentSearchText: searchQuery,),
+  //controllers
+  TextEditingController searchController = TextEditingController();
+  int currentIndex = 0;
+  final List<String> _titles = ['Notes', 'Trash', 'Archived'];
+
+  List<Widget> screens = [
+    NotesModule(currentSearchText: searchQuery),
+    DeleteModule(currentSearchText: searchQuery),
+    ArchivedModule(currentSearchText: searchQuery),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold
-    (
-      appBar: AppBar
-      (
-        title:
-        Text(_titles[currentIndex],style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
-        actions:
-         [
-          Padding(padding: EdgeInsets.all(12),
-          //child: IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          _titles[currentIndex],
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(12),
+            //child: IconButton(
             //onPressed:()
             //{
-              //for change theme
-              child: ThemeSettings()
+            //for change theme
+            child: ThemeSettings(),
             //} ,
             //icon:Icon(Icons.format_color_fill)
             //)
-            )
-         ],
-      ),
-      body:Padding
-      (padding: EdgeInsets.all(20),
-      child: Column
-      (
-        children: 
-        [
-          TextFormField
-          (
-            decoration: InputDecoration
-            (
-              border: OutlineInputBorder
-              (
-                borderRadius: BorderRadius.circular(25)
-              ),
-              hintText: 'Search here',
-              prefixIcon: Icon(Icons.search_outlined),
-            ),
-            controller: searchController,
-            onChanged: (value)
-            {
-              context.read<NotesCubit>().searchInNotes(value);
-            },
-            keyboardType: TextInputType.text, 
           ),
-          screens[currentIndex],
         ],
       ),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                hintText: 'Search here',
+                prefixIcon: Icon(Icons.search_outlined),
+              ),
+              controller: searchController,
+              onChanged: (value) {
+                context.read<NotesCubit>().searchInNotes(value);
+              },
+              keyboardType: TextInputType.text,
+            ),
+            screens[currentIndex],
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar
-      (currentIndex: currentIndex,
-      onTap: (index)
-      {
-        setState(() 
-        {
-        currentIndex =index;
-        });
-      },
-      //selectedItemColor: ,      for color
-        items:
-        [
-        BottomNavigationBarItem(
-        icon: Icon(Icons.book),
-        label: 'Notes',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.delete_forever_rounded),
-        label: 'Trash',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.archive_rounded),
-        label: 'Archived',
-      )
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        //selectedItemColor: ,      for color
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Notes'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.delete_forever_rounded),
+            label: 'Trash',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.archive_rounded),
+            label: 'Archived',
+          ),
         ],
       ),
-      floatingActionButton: 
-      currentIndex==0 ?FloatingActionButton
-      (onPressed:()
-      {
-      Navigator.push
-      (
-        context,
-        MaterialPageRoute
-        (
-          builder: (context)=>AddEditNoteScreen()
-          )
-      );
-      },
-      child: Icon(Icons.add),
-      ) :null
+      floatingActionButton: currentIndex == 0
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddEditNoteScreen()),
+                );
+              },
+              child: Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

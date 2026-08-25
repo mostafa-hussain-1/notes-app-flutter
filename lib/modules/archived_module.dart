@@ -18,27 +18,24 @@ class _ArchivedModuleState extends State<ArchivedModule> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      
       child: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) {
-          
           if (state is NotesLoading) {
             return const Center(child: CircularProgressIndicator());
-          } 
-          
-          else if (state is NotesSuccess) {
-            List<NoteModel> displayList = searchNotes(state.archiveNotes, widget.currentSearchText);
-            
+          } else if (state is NotesSuccess) {
+            List<NoteModel> displayList = searchNotes(
+              state.archiveNotes,
+              widget.currentSearchText,
+            );
+
             return DynamicNotesList(notes: displayList, type: 'archive');
-          } 
-          
-          else if (state is NotesError) {
+          } else if (state is NotesError) {
             return Center(child: Text(state.errorMessage));
           }
 
           return const Center(child: Text('There is nothing here!'));
         },
-      )
+      ),
     );
   }
 }

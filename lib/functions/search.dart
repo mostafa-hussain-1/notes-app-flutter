@@ -9,6 +9,6 @@ List<NoteModel> searchNotes(List<NoteModel> notes, String searchText) {
     final title = note.title.toLowerCase();
     final content = note.content.toLowerCase();
     return title.contains(search) || content.contains(search);
-    }).toList();
+  }).toList();
   return filterNotes;
 }

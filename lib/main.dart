@@ -9,7 +9,7 @@ import 'package:notes_app/states/theme_cubit.dart';
 import 'package:notes_app/states/theme_state.dart';
 import 'themes/app_theme.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NotesCubit()..fetchAllNotes()),
@@ -36,8 +35,7 @@ class MyApp extends StatelessWidget {
 
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
-          
-          var themeCubit = context.read<ThemeCubit>(); 
+          var themeCubit = context.read<ThemeCubit>();
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,

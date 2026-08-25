@@ -18,17 +18,16 @@ class _DeleteModuleState extends State<DeleteModule> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-
       child: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) {
-          
           if (state is NotesLoading) {
             return const Center(child: CircularProgressIndicator());
-          } 
-          
-         else if (state is NotesSuccess) {
-            List<NoteModel> displayList = searchNotes(state.trashNotes, widget.currentSearchText);
-            
+          } else if (state is NotesSuccess) {
+            List<NoteModel> displayList = searchNotes(
+              state.trashNotes,
+              widget.currentSearchText,
+            );
+
             if (displayList.isEmpty) {
               return const Center(child: Text('There is nothing here!'));
             }
@@ -43,15 +42,16 @@ class _DeleteModuleState extends State<DeleteModule> {
                   child: Center(
                     child: ElevatedButton.icon(
                       onPressed: () {
-
                         context.read<NotesCubit>().clearTrash();
-                          //for clear note in trash code
-
+                        //for clear note in trash code
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red.shade100,
                         foregroundColor: Colors.red,
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -63,12 +63,10 @@ class _DeleteModuleState extends State<DeleteModule> {
                 ),
               ],
             );
-          } 
-          
-          else if (state is NotesError) {
+          } else if (state is NotesError) {
             return Center(child: Text(state.errorMessage));
           }
-          
+
           return const Center(child: Text('There is nothing here!'));
         },
       ),

@@ -18,27 +18,24 @@ class _NotesModuleState extends State<NotesModule> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      
       child: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) {
-          
           if (state is NotesLoading) {
             return const Center(child: CircularProgressIndicator());
-          } 
-          
-          else if (state is NotesSuccess) {
-            List<NoteModel> displayList = searchNotes(state.activeNotes, widget.currentSearchText);
-            
+          } else if (state is NotesSuccess) {
+            List<NoteModel> displayList = searchNotes(
+              state.activeNotes,
+              widget.currentSearchText,
+            );
+
             return DynamicNotesList(notes: displayList, type: 'active');
-          } 
-          
-          else if (state is NotesError) {
+          } else if (state is NotesError) {
             return Center(child: Text(state.errorMessage));
           }
 
           return const Center(child: Text('There is nothing here!'));
         },
-      )
+      ),
     );
   }
 }

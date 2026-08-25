@@ -18,7 +18,7 @@ class DynamicNotesList extends StatelessWidget {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final currentNote = notes[index];
-        return NoteCard(note: currentNote,type: type);
+        return NoteCard(note: currentNote, type: type);
       },
     );
   }
