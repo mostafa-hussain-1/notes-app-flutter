@@ -32,11 +32,11 @@ class ThemeCubit extends Cubit<ThemeState> {
     String savedTheme = box.get('app_theme', defaultValue: 'system');
 
     switch (savedTheme) {
-      case 'light':
+      case 'ThemeMode.light':
         appThemeMode = ThemeMode.light;
-      case 'dark':
+      case 'ThemeMode.dark':
         appThemeMode = ThemeMode.dark;
-      case 'system':
+      case 'ThemeMode.system':
       default:
         appThemeMode = ThemeMode.system;
     }
@@ -80,6 +80,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void changeTheme(ThemeMode mode) {
     appThemeMode = mode;
+    saveAppTheme(mode.toString());
     emit(ThemeChanged());
   }
 

@@ -220,6 +220,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   NoteModel updatedNote = NoteModel(
                     title: title,
                     content: content,
+                    id: widget.note!.id
                   );
                   updatedNote.type = widget.note!.type;
                   context.read<NotesCubit>().updateNote(updatedNote);
